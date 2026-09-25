@@ -259,22 +259,6 @@
       color: #c1553d;
     }
 
-    .demo-creds-hint {
-      margin: 8px 0 0;
-      text-align: center;
-      font: 11px var(--mono);
-      color: #7a6e5f;
-      background: rgba(32, 32, 29, 0.05);
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px dashed rgba(32, 32, 29, 0.18);
-    }
-
-    .demo-creds-hint strong {
-      color: var(--admin-accent);
-      letter-spacing: 0.04em;
-    }
-
     .foot {
       text-align: center;
       font-size: 13px;
@@ -1100,7 +1084,7 @@
         <div class="field">
           <label for="admin-username">Username</label>
           <div class="input-wrap">
-            <input type="text" id="admin-username" name="username" placeholder="admin123" autocomplete="username" required />
+            <input type="text" id="admin-username" name="username" placeholder="Enter username" autocomplete="username" required />
           </div>
         </div>
 
@@ -1114,9 +1098,6 @@
 
         <button type="submit" class="submit">Enter dashboard</button>
         <p class="admin-auth-error" id="admin-auth-error" aria-live="polite"></p>
-        <div class="demo-creds-hint">
-          Demo login: <strong>admin123</strong> / <strong>admin123</strong>
-        </div>
       </form>
 
       <p class="foot"><a href="index.html" class="link">← Return to guest website</a></p>
@@ -1269,17 +1250,16 @@
                   </label>
                 </div>
                 <label class="upload-field" style="grid-column: 1 / -1;">
-                  <span>Dish picture (Optional)</span>
+                  <span>Dish picture *</span>
                   <div class="upload-zone" id="food-upload-zone" tabindex="0" role="button" aria-controls="food-images">
                     <span class="upload-cloud" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 9.1 4.5 4.5 0 0 0 7 18Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9v6m0-6-2.2 2.2M12 9l2.2 2.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </span>
                     <strong>Choose a food picture</strong>
                     <span class="upload-browse">Browse files</span>
-                    <small>Choose an image or drag &amp; drop it here (JPEG, PNG, WEBP)</small>
-                    <small>If no photo is selected, a curated category photo will be used automatically.</small>
+                    <small>Choose one image or drag it here (JPEG, PNG, WEBP; up to 6MB)</small>
                     <span class="upload-file-status" id="upload-file-status" aria-live="polite"></span>
-                    <input id="food-images" type="file" name="images" accept="image/png,image/jpeg,image/webp" multiple>
+                    <input id="food-images" type="file" name="images" accept="image/png,image/jpeg,image/webp">
                   </div>
                 </label>
               </div>

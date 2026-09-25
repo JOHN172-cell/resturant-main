@@ -23,50 +23,9 @@
       list = [];
     }
 
-    if (!Array.isArray(list) || list.length === 0) {
-      // Seed high-quality demo reservations if none exist
-      const today = new Date().toISOString().slice(0, 10);
-      list = [
-        {
-          id: 'res-demo-1',
-          name: 'Maya Stone',
-          email: 'maya.stone@example.com',
-          phone: '+233 503658302',
-          date: today,
-          time: '7:00 PM',
-          party: '2 guests',
-          seating: 'Window',
-          notes: 'Celebrating an anniversary dinner',
-          status: 'pending'
-        },
-        {
-          id: 'res-demo-2',
-          name: 'Liam Vance',
-          email: 'liam.v@example.com',
-          phone: '+233 503658302',
-          date: today,
-          time: '8:00 PM',
-          party: '4 guests',
-          seating: 'Booth',
-          notes: 'Nut allergy for 1 guest',
-          status: 'confirmed'
-        },
-        {
-          id: 'res-demo-3',
-          name: 'Elena Rostova',
-          email: 'elena.rostova@example.com',
-          phone: '+233 503658302',
-          date: today,
-          time: '6:30 PM',
-          party: '6 guests',
-          seating: 'Patio',
-          notes: 'High chair requested',
-          status: 'confirmed'
-        }
-      ];
-      localStorage.setItem(reservationsKey, JSON.stringify(list));
-    }
-    return list;
+    if (!Array.isArray(list)) return [];
+    // Remove demo records that may have been stored by older versions.
+    return list.filter(item => !String(item.id || '').startsWith('res-demo-'));
   }
 
   function saveReservations() {
@@ -320,8 +279,8 @@
       const newBooking = {
         id: `res-${Date.now()}`,
         name,
-        email: email || 'walk-in@thevelvetplate.com',
-        phone: phone || 'Walk-in / Phone booking',
+        email,
+        phone,
         date,
         time,
         party,
@@ -361,7 +320,7 @@
   // Auto refresh poll every 10 seconds for reservations from other tabs (like guest booking form)
   setInterval(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem(reservationsKey) || '[]');
+      const stored = loadReservations();
       if (stored.length !== reservations.length) {
         reservations = stored;
         renderStats();

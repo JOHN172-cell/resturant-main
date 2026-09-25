@@ -172,6 +172,23 @@
     applyMenuFilters();
   }
 
+  // Keep the guest menu aligned with the database after an administrator
+  // adds or updates a dish, including its selected image.
+  async function syncMenuFromApi() {
+    try {
+      const response = await fetch('/api/menu');
+      const items = await response.json();
+      if (!response.ok || !Array.isArray(items)) return;
+      localStorage.setItem('velvet-plate-menu-data', JSON.stringify(items));
+      renderDynamicMenu();
+      renderHomepageMenuHighlights();
+      applyMenuAvailability();
+      setupCustomization();
+    } catch (error) {
+      console.warn('Menu sync unavailable; using the currently saved menu.', error);
+    }
+  }
+
   function renderHomepageMenuHighlights() {
     const grid = qs('#featured-menu-grid');
     if (!grid) return;
@@ -1283,6 +1300,7 @@
   setupAboutSlideshow();
   renderCart();
   normalizeCurrencyLabels();
+  syncMenuFromApi();
 
   function setupAboutSlideshow() {
     const slides = qsa('.about-bg-slide');

@@ -15,31 +15,9 @@
     } catch (e) {
       list = [];
     }
-    if (!Array.isArray(list) || list.length === 0) {
-      // Seed a couple demo tickets if empty so the screen is immediately lively
-      list = [
-        {
-          id: `order-demo-1`,
-          createdAt: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
-          status: 'new',
-          items: [
-            { name: 'Coal-roasted chicken', quantity: 1, price: 28, vegan: false, spice: 'Medium', extras: ['Crispy shallots'], exclusions: '' },
-            { name: 'Charred carrots', quantity: 2, price: 12, vegan: true, spice: 'Mild', extras: [], exclusions: 'pistachio' }
-          ]
-        },
-        {
-          id: `order-demo-2`,
-          createdAt: new Date(Date.now() - 1000 * 60 * 25).toISOString(),
-          status: 'progress',
-          items: [
-            { name: 'Hanger steak', quantity: 2, price: 34, vegan: false, spice: 'Hot', extras: ['Side of bread'], exclusions: '' },
-            { name: 'Salted grapefruit spritz', quantity: 2, price: 14, vegan: false, spice: 'Mild', extras: [], exclusions: '' }
-          ]
-        }
-      ];
-      localStorage.setItem(ordersKey, JSON.stringify(list));
-    }
-    return list;
+    if (!Array.isArray(list)) return [];
+    // Remove demo tickets that may have been stored by older versions.
+    return list.filter(item => !String(item.id || '').startsWith('order-demo-'));
   }
 
   function saveOrders() {
@@ -195,11 +173,7 @@
   const refreshBtn = qs('#refresh-orders');
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
-      try {
-        orders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
-      } catch (e) {
-        orders = [];
-      }
+      orders = loadOrders();
       render();
       refreshBtn.textContent = 'Refreshed ✓';
       setTimeout(() => {
@@ -208,34 +182,13 @@
     });
   }
 
-  // Add Demo Order Button (Convenient for live testing)
-  const addDemoBtn = qs('#add-demo-order');
-  if (addDemoBtn) {
-    addDemoBtn.addEventListener('click', () => {
-      const demoNames = ['Coal-roasted chicken', 'Burnt honey panna cotta', 'Hanger steak', 'Ember oysters', 'Salted grapefruit spritz'];
-      const chosen = demoNames[Math.floor(Math.random() * demoNames.length)];
-      const newOrder = {
-        id: `order-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        status: 'new',
-        items: [
-          { name: chosen, quantity: 1, price: 24, vegan: false, spice: 'Medium', extras: [], exclusions: '' }
-        ]
-      };
-      orders.push(newOrder);
-      saveOrders();
-    });
-  }
-
   // Auto poll every 10 seconds for new orders placed in other tabs
   setInterval(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem(ordersKey) || '[]');
-      if (stored.length !== orders.length) {
-        orders = stored;
-        render();
-      }
-    } catch (e) {}
+    const stored = loadOrders();
+    if (stored.length !== orders.length) {
+      orders = stored;
+      render();
+    }
   }, 10000);
 
   render();

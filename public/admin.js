@@ -196,8 +196,10 @@
       if (!file.type.startsWith('image/')) {
         return reject(new Error('Selected file is not a supported image format.'));
       }
-      if (file.size > 10 * 1024 * 1024) {
-        return reject(new Error('Image must be smaller than 10MB.'));
+      // Base64 expands files before they are sent to the JSON API. Keep the
+      // source file comfortably below the server request limit.
+      if (file.size > 6 * 1024 * 1024) {
+        return reject(new Error('Image must be smaller than 6MB.'));
       }
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -222,10 +224,10 @@
     return result.secure_url;
   }
 
-  async function processSelectedImages(files, category) {
+  async function processSelectedImages(files) {
     const selectedFiles = [...files].filter(f => f && f.size > 0);
     if (!selectedFiles.length) {
-      return [categoryFallbacks[category] || categoryFallbacks.Main];
+      throw new Error('Please choose an image for this dish.');
     }
 
     // Try Cloudinary if explicitly configured
@@ -233,17 +235,12 @@
       try {
         return await Promise.all(selectedFiles.map(uploadImageToCloudinary));
       } catch (err) {
-        console.warn('Cloudinary upload unviable, falling back to local storage:', err);
+      console.warn('Cloudinary upload unavailable; saving the selected image locally instead.', err);
       }
     }
 
-    // Otherwise read locally as data URLs
-    try {
-      return await Promise.all(selectedFiles.map(readFileAsDataUrl));
-    } catch (err) {
-      console.warn('Local file read error, falling back to default photo:', err);
-      return [categoryFallbacks[category] || categoryFallbacks.Main];
-    }
+    // Otherwise read the exact selected image locally as a data URL.
+    return Promise.all(selectedFiles.map(readFileAsDataUrl));
   }
 
   async function addMenuItem(event) {
@@ -259,8 +256,8 @@
     const glutenFree = formData.get('glutenFree') === 'on';
     const imageFiles = formData.getAll('images').filter(file => file && file.size > 0);
 
-    if (!name || !Number.isFinite(price) || price <= 0) {
-      alert('Please provide a valid dish name and price.');
+    if (!name || !Number.isFinite(price) || price <= 0 || imageFiles.length !== 1) {
+      alert('Please provide a valid dish name, price, and one image.');
       return;
     }
 
@@ -273,10 +270,11 @@
 
     let images = [];
     try {
-      images = await processSelectedImages(imageFiles, category);
+      images = await processSelectedImages(imageFiles);
     } catch (error) {
       console.error('Image processing error:', error);
-      images = [categoryFallbacks[category] || categoryFallbacks.Main];
+      alert(error.message || 'The selected image could not be saved.');
+      return;
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -295,9 +293,25 @@
       vegetarian: vegan,
       vegan,
       glutenFree,
-      image: images[0] || categoryFallbacks[category] || categoryFallbacks.Main,
+      image: images[0],
       images
     };
+
+    // Save to the backend before updating the screen. If this fails, the
+    // requested dish and image are not replaced by stale local data.
+    try {
+      const response = await adminFetch('/api/menu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item)
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'The dish could not be saved.');
+    } catch (error) {
+      console.error('Menu save failed:', error);
+      alert(error.message || 'The dish could not be saved. Please try again.');
+      return;
+    }
 
     const existingIndex = menuItems.findIndex(
       entry => entry.id === item.id || entry.name.toLowerCase() === name.toLowerCase()
@@ -312,13 +326,6 @@
     availability[item.id] = true;
     localStorage.setItem(menuDataKey, JSON.stringify(menuItems));
     localStorage.setItem(menuKey, JSON.stringify(availability));
-
-    // Sync with API
-    adminFetch('/api/menu', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }).catch(err => console.log('API sync notice:', err));
 
     form.reset();
     const uploadStatus = qs('#upload-file-status');
@@ -396,7 +403,7 @@
     const updateStatus = files => {
       if (status) {
         status.textContent = files.length
-          ? `${files.length} photo${files.length === 1 ? '' : 's'} selected and ready`
+        ? `${files.length} photo${files.length === 1 ? '' : 's'} selected and ready`
           : '';
       }
     };
