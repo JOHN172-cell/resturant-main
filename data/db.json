@@ -289,6 +289,7 @@
     "beef-sharwama": true,
     "ice-kenkey": true
   },
+  "kitchenActive": true,
   "serviceActive": true,
   "orders": [],
   "reservations": []

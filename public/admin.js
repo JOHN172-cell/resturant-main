@@ -4,7 +4,7 @@
   const reservationsKey = 'velvet-plate-reservations';
   const menuKey = 'velvet-plate-availability';
   const menuDataKey = 'velvet-plate-menu-data';
-  const serviceKey = 'velvet-plate-service-active';
+  const kitchenKey = 'taste-africa-kitchen-active';
   const adminSessionKey = 'taste-africa-admin-session';
   const cloudinaryConfig = {
     cloudName: '',
@@ -99,7 +99,7 @@
     if (menuStat) menuStat.textContent = menuItems.filter(item => availability[item.id] !== false).length;
     if (coversStat) coversStat.textContent = covers;
     if (serviceSummaryStat) {
-      const active = localStorage.getItem(serviceKey) !== 'false';
+      const active = localStorage.getItem(kitchenKey) !== 'false';
       serviceSummaryStat.textContent = active ? 'LIVE' : 'OFF';
       serviceSummaryStat.style.color = active ? '#315d39' : '#c1553d';
     }
@@ -438,19 +438,19 @@
     const update = active => {
       toggle.classList.toggle('is-on', active);
       toggle.setAttribute('aria-pressed', String(active));
-      if (label) label.textContent = active ? 'Service on' : 'Service off';
+      if (label) label.textContent = active ? 'Kitchen open' : 'Kitchen closed';
       if (dot) dot.classList.toggle('is-on', active);
       renderStats();
     };
 
-    let active = localStorage.getItem(serviceKey) !== 'false';
+    let active = localStorage.getItem(kitchenKey) !== 'false';
     update(active);
 
-    fetch('/api/service')
+    fetch('/api/kitchen-activity')
       .then(response => response.ok ? response.json() : Promise.reject())
       .then(data => {
-        active = data.active !== false;
-        localStorage.setItem(serviceKey, String(active));
+        active = data.open !== false;
+        localStorage.setItem(kitchenKey, String(active));
         update(active);
       })
       .catch(() => {});
@@ -459,19 +459,19 @@
       const nextActive = !active;
       toggle.disabled = true;
       try {
-        const response = await adminFetch('/api/service', {
-          method: 'POST',
+        const response = await adminFetch('/api/kitchen-activity', {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ active: nextActive })
+          body: JSON.stringify({ open: nextActive })
         });
         if (!response.ok) throw new Error('Unable to update service status');
         const data = await response.json();
-        active = data.active !== false;
+        active = data.open !== false;
       } catch (error) {
         // The server is the source of truth; do not show an unsaved state.
         console.error('Kitchen status was not saved:', error);
       } finally {
-        localStorage.setItem(serviceKey, String(active));
+        localStorage.setItem(kitchenKey, String(active));
         update(active);
         toggle.disabled = false;
       }

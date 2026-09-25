@@ -49,7 +49,9 @@ const defaultData = {
     panna: true,
     spritz: true
   },
-  serviceActive: true,
+  // This is deliberately stored in the database file, not in a session or
+  // process variable, so it survives restarts, logouts and reboots.
+  kitchenActive: true,
   orders: [],
   reservations: []
 };
@@ -58,7 +60,15 @@ function readDB() {
   try {
     if (fs.existsSync(DB_FILE)) {
       const data = fs.readFileSync(DB_FILE, 'utf8');
-      return JSON.parse(data);
+      const parsed = JSON.parse(data);
+      // One-time migration for installations created before the kitchen
+      // setting was introduced. Keep the legacy field in sync for now.
+      if (typeof parsed.kitchenActive !== 'boolean') {
+        parsed.kitchenActive = parsed.serviceActive !== false;
+        parsed.serviceActive = parsed.kitchenActive;
+        writeDB(parsed);
+      }
+      return parsed;
     }
   } catch (err) {
     console.error('Error reading DB file:', err);
@@ -202,11 +212,37 @@ app.post('/api/availability', requireAdmin, (req, res) => {
   res.json({ success: true, availability: db.availability });
 });
 
-// Service status is shared by staff and customers, so closed service blocks
-// orders even when the customer is using a different browser or device.
+function kitchenIsOpen(db) {
+  return db.kitchenActive !== false;
+}
+
+function setKitchenActivity(db, open) {
+  db.kitchenActive = open;
+  // Kept for existing customer pages that use /api/service.
+  db.serviceActive = open;
+  writeDB(db);
+}
+
+// Kitchen activity is shared by staff and customers, so a closed kitchen
+// blocks orders even when the customer is using another device.
+app.get('/api/kitchen-activity', (req, res) => {
+  const db = readDB();
+  res.json({ open: kitchenIsOpen(db) });
+});
+
+app.put('/api/kitchen-activity', requireAdmin, (req, res) => {
+  if (typeof req.body?.open !== 'boolean') {
+    return res.status(400).json({ error: 'Kitchen activity must be true or false.' });
+  }
+  const db = readDB();
+  setKitchenActivity(db, req.body.open);
+  res.json({ success: true, open: db.kitchenActive });
+});
+
+// Compatibility API used by the existing customer ordering pages.
 app.get('/api/service', (req, res) => {
   const db = readDB();
-  res.json({ active: db.serviceActive !== false });
+  res.json({ active: kitchenIsOpen(db) });
 });
 
 app.post('/api/service', requireAdmin, (req, res) => {
@@ -214,9 +250,8 @@ app.post('/api/service', requireAdmin, (req, res) => {
     return res.status(400).json({ error: 'Service status must be true or false.' });
   }
   const db = readDB();
-  db.serviceActive = req.body.active;
-  writeDB(db);
-  res.json({ success: true, active: db.serviceActive });
+  setKitchenActivity(db, req.body.active);
+  res.json({ success: true, active: db.kitchenActive });
 });
 
 // GET Orders
@@ -228,7 +263,7 @@ app.get('/api/orders', (req, res) => {
 // POST New Order
 app.post('/api/orders', (req, res) => {
   const db = readDB();
-  if (db.serviceActive === false) {
+  if (!kitchenIsOpen(db)) {
     return res.status(503).json({
       error: 'We are currently closed for orders. Please try again between 9:00 AM and 10:00 PM.'
     });
