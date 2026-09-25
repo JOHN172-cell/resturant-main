@@ -1,0 +1,55 @@
+/* Shared staff gate for the Kitchen Orders and Reservations panels. */
+body.staff-locked {
+  overflow: hidden;
+}
+
+body.staff-locked > :not(.staff-auth-gate) {
+  visibility: hidden;
+}
+
+.staff-auth-gate {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(rgba(18, 13, 10, 0.72), rgba(18, 13, 10, 0.86)), url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=85') center / cover;
+}
+
+.staff-auth-card {
+  width: min(100%, 420px);
+  padding: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 253, 247, 0.96);
+  color: #20201d;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+}
+
+.staff-auth-card .staff-lock-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: #f7c948;
+  color: #1a0a00;
+}
+
+.staff-lock-icon svg { width: 22px; height: 22px; }
+.staff-auth-card .eyebrow { margin-bottom: 10px; color: #8b1a1a; }
+.staff-auth-card h1 { margin-bottom: 10px; font-size: 38px; }
+.staff-auth-card p { margin-bottom: 24px; color: #62594f; font-size: 14px; line-height: 1.55; }
+.staff-auth-form { display: grid; gap: 16px; }
+.staff-auth-form label { display: grid; gap: 7px; font: 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.staff-auth-form input { width: 100%; padding: 12px 13px; border: 1px solid #d4c8b2; border-radius: 8px; background: #fff; color: #20201d; outline: none; }
+.staff-auth-form input:focus { border-color: #d84d35; box-shadow: 0 0 0 3px rgba(216, 77, 53, 0.16); }
+.staff-auth-submit { min-height: 46px; border-radius: 8px; background: #8b1a1a; color: #fff; font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.staff-auth-submit:hover { background: #b52a2a; }
+.staff-auth-error { min-height: 18px; margin: 0 !important; color: #b42318 !important; font: 11px var(--mono) !important; }
+
+@media (max-width: 480px) {
+  .staff-auth-card { padding: 30px 24px; }
+}

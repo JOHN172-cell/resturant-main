@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Table Reservations | Taste Africa</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="orders.css">
+  <style>
+    .res-top-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+    .btn-new-res {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--admin-accent, #d84d35);
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font: 11px var(--mono);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(216, 77, 53, 0.28);
+      transition: all 0.2s ease;
+    }
+    .btn-new-res:hover {
+      background: #b43d28;
+      transform: translateY(-1px);
+    }
+    .btn-refresh-res {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      padding: 8px 16px;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .btn-refresh-res:hover {
+      background: #ffffff;
+      border-color: var(--admin-accent);
+      color: var(--admin-accent);
+    }
+    .reservation-filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+    }
+    .res-filter-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 10px 14px;
+      font: 11px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6e6559;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.18s ease;
+    }
+    .res-filter-btn:hover {
+      color: var(--ink);
+    }
+    .res-filter-btn.active {
+      color: var(--admin-accent, #d84d35);
+      border-bottom-color: var(--admin-accent, #d84d35);
+      font-weight: 600;
+    }
+    .res-filter-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(32, 32, 29, 0.08);
+      color: var(--ink);
+    }
+    .res-filter-btn.active .res-filter-badge {
+      background: #fce1dc;
+      color: #8a332a;
+    }
+    .party-badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: #eee7d9;
+      color: #3b3328;
+      font: 11px var(--mono);
+      font-weight: 600;
+    }
+    .seating-tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border: 1px solid rgba(32, 32, 29, 0.16);
+      border-radius: 6px;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      color: #554a3e;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .btn-action {
+      background: none;
+      border: none;
+      border-bottom: 1px solid;
+      padding: 3px 0;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-confirm {
+      color: #2b6d36;
+      border-color: #2b6d36;
+    }
+    .btn-confirm:hover {
+      color: #194622;
+      border-color: #194622;
+      background: #e6f4e8;
+      padding: 3px 6px;
+      border-radius: 4px;
+      border-bottom: none;
+    }
+    .btn-decline {
+      color: #c1553d;
+      border-color: #c1553d;
+    }
+    .btn-decline:hover {
+      color: #8c3b28;
+      border-color: #8c3b28;
+      background: #fce1dc;
+      padding: 3px 6px;
+      border-radius: 4px;
+      border-bottom: none;
+    }
+    .btn-reopen {
+      color: #b87b1c;
+      border-color: #b87b1c;
+    }
+    .btn-reopen:hover {
+      color: #7a5110;
+      border-color: #7a5110;
+      background: #fdf3d9;
+      padding: 3px 6px;
+      border-radius: 4px;
+      border-bottom: none;
+    }
+    .btn-delete {
+      color: #8a7e72;
+      border-color: #8a7e72;
+      margin-left: 6px;
+    }
+    .btn-delete:hover {
+      color: #20201d;
+      border-color: #20201d;
+    }
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 16px;
+      width: min(320px, 100%);
+      margin-top: 10px;
+    }
+    .search-wrap input {
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      font: 11px var(--mono);
+      color: var(--ink);
+    }
+    .reservation-table td {
+      vertical-align: middle;
+    }
+    .reservation-table td strong {
+      font-size: 13px;
+      color: #20201d;
+    }
+
+    /* Modal for booking */
+    .res-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(18, 14, 11, 0.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      overflow-y: auto;
+    }
+    .res-modal[hidden] {
+      display: none !important;
+    }
+    .res-dialog {
+      width: min(100%, 540px);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #fffdf9;
+      color: #20201d;
+      padding: 34px 32px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      animation: modalPop 0.25s ease-out;
+    }
+    .res-dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .res-dialog-header h2 {
+      margin: 0 0 4px;
+      font: 600 28px var(--display);
+    }
+    .res-dialog-header p {
+      margin: 0;
+      font: 11px var(--mono);
+      color: #6e6559;
+    }
+    .res-close-btn {
+      border: 0;
+      background: rgba(32, 32, 29, 0.06);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .res-close-btn:hover {
+      background: rgba(32, 32, 29, 0.14);
+    }
+    .manual-res-form {
+      display: grid;
+      gap: 16px;
+    }
+    .manual-res-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .manual-res-form label {
+      display: grid;
+      gap: 6px;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #3b3328;
+    }
+    .manual-res-form input,
+    .manual-res-form select,
+    .manual-res-form textarea {
+      width: 100%;
+      border: 1px solid #d4c8b2;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 10px 12px;
+      font: 12px var(--mono);
+      color: #20201d;
+      outline: none;
+    }
+    .manual-res-form input:focus,
+    .manual-res-form select:focus,
+    .manual-res-form textarea:focus {
+      border-color: var(--admin-accent, #d84d35);
+      box-shadow: 0 0 0 3px rgba(216, 77, 53, 0.15);
+    }
+  </style>
+  <link rel="stylesheet" href="operations.css">
+  <link rel="stylesheet" href="staff-auth.css">
+  <script src="reservations.js" defer></script>
+  <script src="staff-auth.js" defer></script>
+</head>
+<body class="orders-body staff-locked">
+  <header class="admin-header">
+    <a class="brand" href="index.html" aria-label="Back to Taste Africa home">
+      <span class="brand-mark">T<span>A</span></span>
+      <span class="brand-name">Taste<br><em>Africa</em></span>
+    </a>
+    <div class="admin-header-label">
+      <span>Front of House</span>
+      <strong>Table Reservations / Floor Plan</strong>
+    </div>
+    <nav class="orders-nav">
+      <a href="orders.html">Kitchen Orders</a>
+      <a class="active" href="reservations.html">Reservations</a>
+      <a href="admin.html">Admin Console</a>
+    </nav>
+    <a class="admin-exit" href="index.html">View website <span>↗</span></a>
+  </header>
+
+  <main class="orders-main">
+    <section class="orders-welcome">
+      <div>
+        <p class="eyebrow">Front of House / Floor Service</p>
+        <h1>Table<br><em>reservations.</em></h1>
+      </div>
+      <div class="orders-date">
+        <span id="reservations-date">Today</span>
+        <strong><span class="live-indicator"></span> Service starts at 5:00 PM</strong>
+        <div class="search-wrap">
+          <input type="search" id="reservation-search" placeholder="Search guests, phone, notes..." aria-label="Search reservations">
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview Stats -->
+    <section class="stats-grid" aria-label="Reservations overview" style="margin-bottom: 28px;">
+      <article class="stat-card" style="border-top-color: #3c7344;">
+        <span>Tonight’s covers</span>
+        <strong id="stat-covers">0</strong>
+        <small>total diners expected</small>
+      </article>
+      <article class="stat-card" style="border-top-color: #d84d35;">
+        <span>Pending requests</span>
+        <strong id="stat-pending">0</strong>
+        <small>awaiting confirmation</small>
+      </article>
+      <article class="stat-card" style="border-top-color: #2d6fa5;">
+        <span>Confirmed tables</span>
+        <strong id="stat-confirmed">0</strong>
+        <small>secured reservations</small>
+      </article>
+      <article class="stat-card" style="border-top-color: #7a6e5f;">
+        <span>Declined / Cancelled</span>
+        <strong id="stat-cancelled">0</strong>
+        <small>released capacity</small>
+      </article>
+    </section>
+
+    <!-- Main Reservations Management Table -->
+    <section class="admin-panel" style="padding: 28px;">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Floor Management</p>
+          <h2>Guest bookings</h2>
+        </div>
+        <div class="res-top-tools">
+          <button class="btn-new-res" id="open-add-reservation" type="button">
+            <span>+</span> Add walk-in / booking
+          </button>
+          <button class="btn-refresh-res" id="refresh-reservations" type="button">
+            Refresh ↻
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="reservation-filters-bar">
+        <button class="res-filter-btn active" data-reservation-filter="all" type="button">
+          All bookings <span class="res-filter-badge" id="filter-count-all">0</span>
+        </button>
+        <button class="res-filter-btn" data-reservation-filter="pending" type="button">
+          Pending <span class="res-filter-badge" id="filter-count-pending">0</span>
+        </button>
+        <button class="res-filter-btn" data-reservation-filter="confirmed" type="button">
+          Confirmed <span class="res-filter-badge" id="filter-count-confirmed">0</span>
+        </button>
+        <button class="res-filter-btn" data-reservation-filter="cancelled" type="button">
+          Declined <span class="res-filter-badge" id="filter-count-cancelled">0</span>
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="reservation-table-wrap">
+        <table class="reservation-table">
+          <thead>
+            <tr>
+              <th>Guest</th>
+              <th>Date &amp; Time</th>
+              <th>Party Size</th>
+              <th>Seating</th>
+              <th>Special Notes</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reservation-list"></tbody>
+        </table>
+        <div class="admin-empty" id="reservation-empty">No reservations match your current filter or search.</div>
+      </div>
+    </section>
+
+    <!-- Modal for Manual Walk-in / Phone Reservation Entry -->
+    <div class="res-modal" id="add-reservation-modal" role="dialog" aria-modal="true" aria-labelledby="add-res-title" hidden>
+      <div class="res-dialog">
+        <div class="res-dialog-header">
+          <div>
+            <h2 id="add-res-title">New table booking</h2>
+            <p>Record a phone reservation or in-person walk-in party.</p>
+          </div>
+          <button class="res-close-btn" id="close-add-reservation" type="button" aria-label="Close dialog">×</button>
+        </div>
+
+        <form id="manual-reservation-form" class="manual-res-form">
+          <div class="manual-res-grid">
+            <label style="grid-column: 1 / -1;">
+              <span>Guest full name *</span>
+              <input type="text" name="name" placeholder="e.g. Samuel Amissah" required>
+            </label>
+            <label>
+              <span>Email address (Optional)</span>
+              <input type="email" name="email" placeholder="samuel@example.com">
+            </label>
+            <label>
+              <span>Phone number</span>
+              <input type="tel" name="phone" placeholder="+233 503658302">
+            </label>
+            <label>
+              <span>Reservation date *</span>
+              <input type="date" name="date" required>
+            </label>
+            <label>
+              <span>Time *</span>
+              <select name="time" required>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="6:30 PM">6:30 PM</option>
+                <option value="7:00 PM" selected>7:00 PM</option>
+                <option value="7:30 PM">7:30 PM</option>
+                <option value="8:00 PM">8:00 PM</option>
+                <option value="8:30 PM">8:30 PM</option>
+                <option value="9:00 PM">9:00 PM</option>
+                <option value="9:30 PM">9:30 PM</option>
+                <option value="10:00 PM">10:00 PM</option>
+              </select>
+            </label>
+            <label>
+              <span>Party size</span>
+              <select name="party">
+                <option value="2 guests" selected>2 guests</option>
+                <option value="3 guests">3 guests</option>
+                <option value="4 guests">4 guests</option>
+                <option value="5 guests">5 guests</option>
+                <option value="6 guests">6 guests</option>
+                <option value="7+ guests">7+ guests</option>
+              </select>
+            </label>
+            <label>
+              <span>Seating preference</span>
+              <select name="seating">
+                <option value="No preference" selected>No preference</option>
+                <option value="Booth">Booth</option>
+                <option value="Patio">Patio</option>
+                <option value="Window">Window</option>
+              </select>
+            </label>
+            <label style="grid-column: 1 / -1;">
+              <span>Floor / Kitchen notes</span>
+              <textarea name="notes" rows="2" placeholder="Dietary needs, anniversary, high chair..."></textarea>
+            </label>
+          </div>
+          <button class="button button-dark" type="submit" style="width: 100%; border-radius: 10px; margin-top: 8px;">
+            Save &amp; confirm booking
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <p class="orders-disclaimer">Front of house floor reservation console. Guest online bookings from the reservations page appear here instantly in real time.</p>
+  </main>
+</body>
+</html>

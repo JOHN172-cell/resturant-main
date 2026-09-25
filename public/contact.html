@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Taste Africa in Tema Community 11, Ghana. Reach out for table reservations, private dining events, or dining inquiries.">
+  <title>Contact Us | Taste Africa</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+  <style>
+    /* ============================================================
+       MODERN CONTACT PAGE STYLES (Based on Reference Design)
+       ============================================================ */
+    
+    :root {
+      --contact-card-bg: #ffffff;
+      --contact-card-border: rgba(32, 32, 29, 0.08);
+      --contact-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      --contact-accent: #e5a433;
+      --contact-accent-hover: #d19228;
+      --contact-accent-light: rgba(229, 164, 51, 0.12);
+      --contact-accent-rgb: 229, 164, 51;
+      --contact-input-bg: #fbf9f5;
+      --contact-input-border: rgba(32, 32, 29, 0.12);
+      --contact-input-focus: #e5a433;
+      --contact-text-muted: rgba(32, 32, 29, 0.6);
+      --contact-section-bg: var(--paper);
+    }
+
+    [data-theme="dark"] {
+      --contact-card-bg: #1c1c19;
+      --contact-card-border: rgba(245, 241, 232, 0.1);
+      --contact-card-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      --contact-accent: #e5a433;
+      --contact-accent-hover: #f3b447;
+      --contact-accent-light: rgba(229, 164, 51, 0.16);
+      --contact-input-bg: #141412;
+      --contact-input-border: rgba(245, 241, 232, 0.15);
+      --contact-text-muted: rgba(245, 241, 232, 0.6);
+      --contact-section-bg: #11110f;
+    }
+
+    body[data-page="contact"] {
+      background-color: var(--contact-section-bg);
+      transition: background-color 0.3s ease;
+    }
+
+    /* ------------------------------------------------------------
+       1. HERO BANNER SECTION
+       ------------------------------------------------------------ */
+    .contact-hero-banner {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      padding: 90px 20px 80px;
+      overflow: hidden;
+      background-color: #121210;
+    }
+
+    .contact-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2200&q=85');
+      background-size: cover;
+      background-position: center 38%;
+      filter: brightness(0.42) saturate(0.85);
+      transform: scale(1.03);
+      transition: transform 10s ease-out;
+    }
+
+    .contact-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(17, 17, 15, 0.3) 0%, rgba(10, 10, 8, 0.85) 100%),
+                  linear-gradient(180deg, rgba(17, 17, 15, 0.5) 0%, rgba(17, 17, 15, 0.85) 100%);
+    }
+
+    .contact-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      animation: heroFadeUp 0.8s ease-out both;
+    }
+
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .contact-breadcrumbs {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font: 500 11px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 22px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .contact-breadcrumbs a {
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+
+    .contact-breadcrumbs a:hover {
+      color: var(--contact-accent);
+    }
+
+    .contact-breadcrumbs span.sep {
+      color: var(--contact-accent);
+      font-size: 13px;
+    }
+
+    .contact-breadcrumbs span.current {
+      color: var(--contact-accent);
+    }
+
+    .contact-hero-title {
+      font-family: var(--display);
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+      color: #ffffff;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-hero-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--contact-accent);
+    }
+
+    .contact-hero-desc {
+      font-size: clamp(14px, 1.8vw, 16px);
+      line-height: 1.65;
+      color: rgba(245, 241, 232, 0.82);
+      max-width: 620px;
+      margin: 0 auto 30px;
+      font-family: var(--sans);
+    }
+
+    .contact-hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--contact-accent);
+      color: #17160e;
+      font: 600 11px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 13px 32px;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(229, 164, 51, 0.35);
+    }
+
+    .contact-hero-btn:hover {
+      background: var(--contact-accent-hover);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(229, 164, 51, 0.45);
+    }
+
+    /* ------------------------------------------------------------
+       2. MAIN CONTENT SECTION (Cards + Form Grid)
+       ------------------------------------------------------------ */
+    .contact-main-section {
+      padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px);
+      background-color: var(--contact-section-bg);
+      position: relative;
+    }
+
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-grid-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    /* Left Info Cards Stack */
+    .contact-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .contact-info-card {
+      background: var(--contact-card-bg);
+      border: 1px solid var(--contact-card-border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      box-shadow: var(--contact-card-shadow);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .contact-info-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(229, 164, 51, 0.45);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="dark"] .contact-info-card:hover {
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .cic-icon-wrapper {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--contact-accent-light);
+      color: var(--contact-accent);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, background-color 0.25s ease;
+    }
+
+    .contact-info-card:hover .cic-icon-wrapper {
+      transform: scale(1.08);
+      background: var(--contact-accent);
+      color: #17160e;
+    }
+
+    .cic-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cic-title {
+      font-family: var(--display);
+      font-size: 17px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: inherit;
+    }
+
+    .cic-subtitle {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--contact-text-muted);
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .cic-subtitle a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .cic-subtitle a:hover {
+      color: var(--contact-accent);
+    }
+
+    /* Social quick strip in info column */
+    .contact-social-card {
+      background: var(--contact-card-bg);
+      border: 1px solid var(--contact-card-border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: var(--contact-card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .csc-label {
+      font: 600 11px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--contact-text-muted);
+      margin: 0;
+    }
+
+    .csc-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .csc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--contact-input-bg);
+      border: 1px solid var(--contact-card-border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font: 500 11px var(--mono);
+      color: inherit;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .csc-btn:hover {
+      background: var(--contact-accent);
+      color: #17160e;
+      border-color: var(--contact-accent);
+      transform: translateY(-2px);
+    }
+
+    /* Right Side: Form Card */
+    .contact-form-card {
+      background: var(--contact-card-bg);
+      border: 1px solid var(--contact-card-border);
+      border-radius: 20px;
+      padding: clamp(32px, 5vw, 54px);
+      box-shadow: var(--contact-card-shadow);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .contact-form-header {
+      margin-bottom: 32px;
+    }
+
+    .contact-form-title {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
+      color: inherit;
+    }
+
+    .contact-form-subtitle {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--contact-text-muted);
+      margin: 0;
+      max-width: 580px;
+    }
+
+    /* Form Fields */
+    .modern-contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-row-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-field label {
+      font: 500 11px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--contact-text-muted);
+    }
+
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      background: var(--contact-input-bg);
+      border: 1px solid var(--contact-input-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font: 14px var(--sans);
+      color: inherit;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: var(--contact-text-muted);
+      opacity: 0.65;
+    }
+
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--contact-input-focus);
+      background-color: var(--contact-card-bg);
+      box-shadow: 0 0 0 3px rgba(229, 164, 51, 0.18);
+    }
+
+    .form-field textarea {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.5;
+    }
+
+    .form-submit-row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .btn-submit-message {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--contact-accent);
+      color: #17160e;
+      border: none;
+      border-radius: 10px;
+      padding: 16px 40px;
+      font: 600 13px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(229, 164, 51, 0.32);
+    }
+
+    .btn-submit-message:hover {
+      background: var(--contact-accent-hover);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(229, 164, 51, 0.45);
+    }
+
+    .form-status-alert {
+      font: 500 12px var(--mono);
+      min-height: 20px;
+      padding: 0 4px;
+      transition: all 0.3s ease;
+    }
+
+    .form-status-alert.success {
+      color: #38a169;
+    }
+
+    .form-status-alert.error {
+      color: #e53e3e;
+    }
+
+    /* ------------------------------------------------------------
+       3. "FIND US ON GOOGLE MAPS" SECTION
+       ------------------------------------------------------------ */
+    .contact-map-section {
+      padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 60px) clamp(70px, 9vw, 120px);
+      background-color: var(--contact-section-bg);
+    }
+
+    .map-section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto clamp(30px, 4vw, 48px);
+    }
+
+    .map-section-header h2 {
+      font-family: var(--display);
+      font-size: clamp(30px, 4.5vw, 46px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: inherit;
+    }
+
+    .map-section-header p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--contact-text-muted);
+      margin: 0;
+    }
+
+    .map-embed-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--contact-card-border);
+      box-shadow: var(--contact-card-shadow);
+      background: var(--contact-card-bg);
+      position: relative;
+    }
+
+    .map-embed-wrapper iframe {
+      display: block;
+      width: 100%;
+      height: 480px;
+      border: none;
+      filter: contrast(1.02);
+    }
+
+    /* ------------------------------------------------------------
+       4. RESPONSIVE DESIGN
+       ------------------------------------------------------------ */
+    @media (max-width: 992px) {
+      .contact-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .contact-cards-stack {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .contact-social-card {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .contact-hero-banner {
+        min-height: 360px;
+        padding: 70px 16px 60px;
+      }
+      .contact-cards-stack {
+        grid-template-columns: 1fr;
+      }
+      .form-row-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .contact-form-card {
+        padding: 26px 20px;
+      }
+      .btn-submit-message {
+        width: 100%;
+      }
+      .map-embed-wrapper iframe {
+        height: 360px;
+      }
+    }
+  </style>
+</head>
+<body data-page="contact">
+  <div class="announcement">Walk in and bring your palette to life <span>•</span> Tema Community 11</div>
+  
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Taste Africa home">
+      <span class="brand-mark">T<span>A</span></span>
+      <span class="brand-name">Taste<br><em>Africa</em></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="reservation.html">Reservations</a>
+      <a class="active" href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Toggle theme mode">
+      <span class="theme-icon">☀️</span>
+      <span class="theme-text">Light</span>
+    </button>
+    <button class="cart-trigger" type="button" aria-label="Open cart">
+      <span class="cart-icon">↗</span>
+      <span>Order</span>
+      <b class="cart-count">0</b>
+    </button>
+  </header>
+
+  <main>
+    <!-- 1. Hero Banner (Referencing Pinterest Banner Layout) -->
+    <section class="contact-hero-banner" aria-label="Contact header">
+      <div class="contact-hero-bg"></div>
+      <div class="contact-hero-overlay"></div>
+      <div class="contact-hero-content">
+        <nav class="contact-breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep">&gt;</span>
+          <span class="current">Contact Us</span>
+        </nav>
+        <h1 class="contact-hero-title">Contact <em>Informations</em></h1>
+        <p class="contact-hero-desc">
+          Whether you wish to reserve an exclusive dining experience, host a private gathering, or simply enquire about our seasonal wood-fired menu, our team is at your service.
+        </p>
+        <a href="#contact-form-section" class="contact-hero-btn">
+          Contact Us <span>↓</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. Main Section: Left Info Cards + Right Message Form (Referencing Reference Grid) -->
+    <section class="contact-main-section" id="contact-form-section" aria-label="Contact Details and Form">
+      <div class="contact-container">
+        <div class="contact-grid-layout">
+          
+          <!-- Left Column: Stacked Contact Info Cards -->
+          <div class="contact-cards-stack">
+            
+            <!-- Phone Number Card -->
+            <div class="contact-info-card">
+              <div class="cic-icon-wrapper" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <div class="cic-details">
+                <h3 class="cic-title">Phone Number</h3>
+                <p class="cic-subtitle">
+                  <a href="tel:+233503658302">+233 503 658 302</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Email Address Card -->
+            <div class="contact-info-card">
+              <div class="cic-icon-wrapper" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="cic-details">
+                <h3 class="cic-title">Email Address</h3>
+                <p class="cic-subtitle">
+                  <a href="mailto:mawulijohn66@gmail.com">mawulijohn66@gmail.com</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Opening Hours Card (Mirroring Fax/Hours in reference) -->
+            <div class="contact-info-card">
+              <div class="cic-icon-wrapper" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="cic-details">
+                <h3 class="cic-title">Opening Hours</h3>
+                <p class="cic-subtitle">Mon – Sun: 9:00 AM – 10:00 PM</p>
+              </div>
+            </div>
+
+            <!-- Location Card -->
+            <div class="contact-info-card">
+              <div class="cic-icon-wrapper" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div class="cic-details">
+                <h3 class="cic-title">Location</h3>
+                <p class="cic-subtitle">Tema Community 11, Ghana</p>
+              </div>
+            </div>
+
+            <!-- Social Card -->
+            <div class="contact-social-card">
+              <p class="csc-label">Connect With Us</p>
+              <div class="csc-links">
+                <a href="https://instagram.com" target="_blank" rel="noreferrer" class="csc-btn" aria-label="Instagram">
+                  <span>📸</span> Instagram
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noreferrer" class="csc-btn" aria-label="Facebook">
+                  <span>📘</span> Facebook
+                </a>
+                <a href="https://tripadvisor.com" target="_blank" rel="noreferrer" class="csc-btn" aria-label="TripAdvisor">
+                  <span>🦉</span> TripAdvisor
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Send Message Form Card -->
+          <div class="contact-form-card">
+            <div class="contact-form-header">
+              <h2 class="contact-form-title">Send Message</h2>
+              <p class="contact-form-subtitle">
+                Have a question regarding reservations, dietary accommodations, or special event bookings? Fill in the fields below and we'll reply promptly.
+              </p>
+            </div>
+
+            <form class="modern-contact-form" id="contact-form" novalidate>
+              <div class="form-row-grid">
+                <div class="form-field">
+                  <label for="contact-name">Your name *</label>
+                  <input id="contact-name" name="name" type="text" placeholder="John Mensah" required>
+                </div>
+                <div class="form-field">
+                  <label for="contact-email">Email address (Optional)</label>
+                  <input id="contact-email" name="email" type="email" placeholder="john@example.com">
+                </div>
+              </div>
+
+              <div class="form-row-grid">
+                <div class="form-field">
+                  <label for="contact-phone">Phone number *</label>
+                  <input id="contact-phone" name="phone" type="tel" placeholder="+233 503 658 302" required>
+                </div>
+                <div class="form-field">
+                  <label for="contact-subject">Subject *</label>
+                  <input id="contact-subject" name="subject" type="text" placeholder="Dining Inquiry / Catering" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="contact-message">Message *</label>
+                <textarea id="contact-message" name="message" placeholder="How can we assist you today?" required></textarea>
+              </div>
+
+              <div class="form-submit-row">
+                <button type="submit" class="btn-submit-message">
+                  Send Message <span>↗</span>
+                </button>
+                <div class="form-status-alert" role="status" aria-live="polite"></div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. "Find Us on Google Maps" Section -->
+    <section class="contact-map-section" aria-label="Google Maps Location">
+      <div class="contact-container">
+        <div class="map-section-header">
+          <h2>Find Us on Google Maps</h2>
+          <p>
+            Conveniently situated in Tema Community 11, Ghana. Easy street parking, private dining rooms, and warm hospitality await you.
+          </p>
+        </div>
+
+        <div class="map-embed-wrapper">
+          <iframe
+            title="Taste Africa Tema Community 11 Location Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15879.79440784949!2d-0.0076214!3d5.6664917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1020786cfef4fef3%3A0x8ddf33e08f5d023b!2sCommunity%2011%2C%20Tema%2C%20Ghana!5e0!3m2!1sen!2sgh!4v1700000000000!5m2!1sen!2sgh"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen="">
+          </iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">V<span>P</span></span>
+      <span class="brand-name">The Velvet<br><em>Plate</em></span>
+    </a>
+    <div>
+      <p>Tema Community 11, Ghana</p>
+      <a href="mailto:mawulijohn66@gmail.com">mawulijohn66@gmail.com</a>
+    </div>
+    <div>
+      <p>Mon–Sun / 9am–10pm<br>Walk-ins always welcome</p>
+      <a href="contact.html">Find your way here →</a>
+    </div>
+    <small>© 2025 Taste Africa. All Rights Reserved.</small>
+  </footer>
+
+  <aside class="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-head">
+      <h2>Your order</h2>
+      <button class="close-cart" type="button" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-items"></div>
+    <div class="cart-empty">
+      <span>◎</span>
+      <p>Your order is<br>waiting to happen.</p>
+      <a href="menu.html">Browse the menu →</a>
+    </div>
+    <div class="cart-footer">
+      <div>
+        <span>Subtotal</span>
+        <strong class="cart-total">₵0.00</strong>
+      </div>
+      <button class="button button-dark checkout-button" type="button" disabled>
+        Checkout <span>↗</span>
+      </button>
+    </div>
+  </aside>
+  <div class="drawer-scrim"></div>
+
+  <script>
+    (function () {
+      const form = document.getElementById('contact-form');
+      const statusAlert = form ? form.querySelector('.form-status-alert') : null;
+      const submitBtn = form ? form.querySelector('.btn-submit-message') : null;
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          
+          const name = form.querySelector('#contact-name').value.trim();
+          const email = form.querySelector('#contact-email').value.trim();
+          const phone = form.querySelector('#contact-phone').value.trim();
+          const subject = form.querySelector('#contact-subject').value.trim();
+          const message = form.querySelector('#contact-message').value.trim();
+
+          if (!name || !phone || !subject || !message) {
+            if (statusAlert) {
+              statusAlert.textContent = 'Please fill out all required fields.';
+              statusAlert.className = 'form-status-alert error';
+            }
+            return;
+          }
+
+          // Email validation
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (email && !emailRegex.test(email)) {
+            if (statusAlert) {
+              statusAlert.textContent = 'Please provide a valid email address.';
+              statusAlert.className = 'form-status-alert error';
+            }
+            return;
+          }
+
+          // Simulate sending
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending Message...';
+          }
+
+          setTimeout(function () {
+            if (statusAlert) {
+              statusAlert.textContent = "Thank you! Your message has been received. We'll be in touch within 24 hours.";
+              statusAlert.className = 'form-status-alert success';
+            }
+            form.reset();
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = 'Send Message <span>↗</span>';
+            }
+            setTimeout(function () {
+              if (statusAlert) statusAlert.textContent = '';
+            }, 8000);
+          }, 600);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

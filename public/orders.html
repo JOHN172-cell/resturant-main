@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Kitchen & Takeout Orders | Taste Africa</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="orders.css">
+  <link rel="stylesheet" href="operations.css">
+  <link rel="stylesheet" href="staff-auth.css">
+  <style>
+    .order-action {
+      flex: 1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.18s ease;
+    }
+    .order-remove-btn {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: #8c3b31;
+      font-size: 16px;
+      padding: 0 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .order-remove-btn:hover {
+      background: #fce1dc;
+      border-color: #c1553d;
+    }
+    .order-btn-test {
+      margin-left: 10px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: var(--paper);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font: 9px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .order-btn-test:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: var(--mustard);
+    }
+  </style>
+  <script src="orders.js" defer></script>
+  <script src="staff-auth.js" defer></script>
+</head>
+<body class="orders-body staff-locked">
+  <header class="admin-header">
+    <a class="brand" href="index.html" aria-label="Back to Taste Africa home">
+      <span class="brand-mark">T<span>A</span></span>
+      <span class="brand-name">Taste<br><em>Africa</em></span>
+    </a>
+    <div class="admin-header-label">
+      <span>Kitchen &amp; Counter</span>
+      <strong>Live Orders / Operations</strong>
+    </div>
+    <nav class="orders-nav">
+      <a class="active" href="orders.html">Kitchen Orders</a>
+      <a href="reservations.html">Reservations</a>
+      <a href="admin.html">Admin Console</a>
+    </nav>
+    <a class="admin-exit" href="index.html">View website <span>↗</span></a>
+  </header>
+
+  <main class="orders-main">
+    <section class="orders-welcome">
+      <div>
+        <p class="eyebrow">Ticket Station</p>
+        <h1>What’s<br><em>cooking.</em></h1>
+      </div>
+      <div class="orders-date">
+        <span id="orders-date">Today</span>
+        <strong><span class="live-indicator"></span> Live Kitchen Queue</strong>
+      </div>
+    </section>
+
+    <section class="order-status-bar">
+      <div>
+        <strong id="new-order-count">0</strong>
+        <span>new incoming</span>
+      </div>
+      <div>
+        <strong id="active-order-count">0</strong>
+        <span>in prep</span>
+      </div>
+      <div>
+        <strong id="done-order-count">0</strong>
+        <span>ready / completed</span>
+      </div>
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <button class="order-btn-test" type="button" id="add-demo-order">+ Test new ticket</button>
+        <button class="orders-refresh" type="button" id="refresh-orders">Refresh queue ↻</button>
+      </div>
+    </section>
+
+    <section class="order-columns">
+      <div class="order-column">
+        <div class="order-column-heading">
+          <h2>New</h2>
+          <span id="new-column-count">0</span>
+        </div>
+        <div id="new-orders" class="order-list"></div>
+      </div>
+
+      <div class="order-column">
+        <div class="order-column-heading">
+          <h2>In progress</h2>
+          <span id="progress-column-count">0</span>
+        </div>
+        <div id="progress-orders" class="order-list"></div>
+      </div>
+
+      <div class="order-column">
+        <div class="order-column-heading">
+          <h2>Ready / complete</h2>
+          <span id="done-column-count">0</span>
+        </div>
+        <div id="done-orders" class="order-list"></div>
+      </div>
+    </section>
+
+    <p class="orders-disclaimer">Real-time order tickets synced with customer online checkout. Moving tickets notifies floor staff and updates preparation state.</p>
+  </main>
+</body>
+</html>

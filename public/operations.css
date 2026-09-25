@@ -1,0 +1,157 @@
+/* Shared modern operations workspace for orders and reservations. */
+:root {
+  --ops-surface: rgba(255, 253, 249, 0.88);
+  --ops-border: rgba(63, 46, 32, 0.12);
+  --ops-shadow: 0 18px 50px rgba(78, 55, 35, 0.10);
+}
+
+.orders-body {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(226, 150, 91, 0.16), transparent 28rem),
+    radial-gradient(circle at 100% 10%, rgba(216, 77, 53, 0.10), transparent 24rem),
+    #f6f1e9;
+  color: var(--ink);
+}
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--ops-border);
+  background: rgba(255, 253, 249, 0.84);
+  color: var(--ink);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* The admin header was originally dark. Set explicit text colours now that it
+   sits on a light glass surface. */
+.admin-header .brand-name,
+.admin-header-label strong,
+.admin-exit,
+.orders-nav a { color: var(--ink); }
+.admin-header-label { border-left-color: var(--ops-border); }
+.admin-header-label span { color: var(--tomato); }
+.orders-nav a:hover,
+.orders-nav a.active,
+.admin-exit:hover { color: var(--tomato); }
+
+.orders-main { max-width: 1560px; padding-top: clamp(40px, 6vw, 78px); }
+
+.orders-welcome {
+  align-items: center;
+  margin-bottom: 38px;
+}
+
+.orders-welcome h1 {
+  font-size: clamp(50px, 6.7vw, 96px);
+  line-height: 0.88;
+}
+
+.orders-date {
+  min-width: 225px;
+  padding: 16px 18px;
+  text-align: left;
+  border: 1px solid var(--ops-border);
+  border-radius: 16px;
+  background: var(--ops-surface);
+  box-shadow: 0 8px 24px rgba(78, 55, 35, 0.05);
+}
+
+.live-indicator { box-shadow: 0 0 0 4px rgba(94, 155, 104, 0.13); }
+
+.order-status-bar {
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: #29251f;
+  box-shadow: 0 18px 36px rgba(36, 29, 22, 0.18);
+}
+
+.order-status-bar > div:not(:last-child) {
+  min-width: 135px;
+  padding: 9px 17px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.order-status-bar > div:last-child { padding: 5px 6px 5px 10px; }
+.order-status-bar strong { font-size: 31px; }
+.orders-refresh, .order-btn-test { border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); padding: 9px 12px; }
+.orders-refresh:hover { background: rgba(255, 255, 255, 0.1); }
+
+.order-columns { gap: 20px; align-items: start; }
+.order-column {
+  padding: 16px;
+  border: 1px solid var(--ops-border);
+  border-radius: 20px;
+  background: rgba(255, 253, 249, 0.55);
+}
+
+.order-column-heading { margin-bottom: 16px; padding: 2px 4px 14px; border-bottom: 1px solid var(--ops-border); }
+.order-column-heading h2 { font-size: 25px; }
+.order-column-heading span { display: grid; place-items: center; min-width: 25px; height: 25px; border-radius: 50%; background: #f5dfd4; color: #9d3b2b; }
+
+.order-card {
+  padding: 19px;
+  border: 1px solid var(--ops-border);
+  border-left: 4px solid var(--tomato);
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(78, 55, 35, 0.06);
+}
+.order-card.progress { border-left-color: var(--mustard); }
+.order-card.done { border-left-color: #5e9b68; opacity: 1; background: rgba(232, 245, 234, 0.72); }
+.order-card-top { padding-bottom: 12px; margin-bottom: 10px; }
+.order-action { border-radius: 9px; }
+
+.stats-grid { gap: 18px; }
+.stat-card {
+  padding: 22px !important;
+  border: 1px solid var(--ops-border) !important;
+  border-top: 4px solid var(--tomato) !important;
+  border-radius: 16px;
+  background: var(--ops-surface);
+  box-shadow: 0 8px 22px rgba(78, 55, 35, 0.05);
+}
+
+.admin-panel {
+  border: 1px solid var(--ops-border);
+  border-radius: 20px;
+  background: var(--ops-surface);
+  box-shadow: var(--ops-shadow);
+}
+
+.reservation-filters-bar { gap: 4px; padding: 12px 0; margin-bottom: 18px; border-bottom: 1px solid var(--ops-border); }
+.res-filter-btn { border: 0; border-radius: 9px; padding: 9px 12px; }
+.res-filter-btn.active { border: 0; background: #f8dfd7; }
+.res-filter-badge { background: rgba(63, 46, 32, 0.09); }
+
+.search-wrap { margin-top: 8px; border-radius: 12px; background: rgba(255, 255, 255, 0.7); }
+.reservation-table-wrap { overflow-x: auto; border: 1px solid var(--ops-border); border-radius: 14px; background: #fffdfa; }
+.reservation-table { width: 100%; border-collapse: collapse; min-width: 790px; }
+.reservation-table th { padding: 14px 16px; background: #f5efe6; color: #66594c; font: 10px var(--mono); letter-spacing: 0.06em; text-align: left; text-transform: uppercase; }
+.reservation-table td { padding: 15px 16px; border-top: 1px solid var(--ops-border); }
+.reservation-table tbody tr { transition: background 0.18s ease; }
+.reservation-table tbody tr:hover { background: #fffbf5; }
+
+.btn-new-res { border-radius: 10px; padding: 11px 15px; }
+.btn-refresh-res { border-radius: 10px; padding: 10px 13px; background: #fffdfa; }
+.party-badge, .seating-tag { border-radius: 999px; }
+
+.orders-disclaimer { text-align: center; margin-top: 36px; }
+
+@media (max-width: 850px) {
+  .orders-welcome { align-items: flex-start; }
+  .order-status-bar > div:not(:last-child) { min-width: 0; padding: 7px 11px; }
+}
+
+@media (max-width: 620px) {
+  .orders-welcome { display: grid; gap: 24px; }
+  .orders-date { width: 100%; }
+  .order-status-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .order-status-bar > div:not(:last-child) { border-right: 0; }
+  .order-status-bar > div:last-child { grid-column: 1 / -1; padding-left: 6px; }
+  .order-column { padding: 12px; }
+  .admin-panel { padding: 18px !important; }
+  .res-top-tools { margin-left: 0; }
+}

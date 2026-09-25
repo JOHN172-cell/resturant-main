@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive online menu for Taste Africa in Tema Community 11. Order fresh wood-fired dishes, starters, mains, desserts, and drinks.">
+  <title>Menu & Ordering | Taste Africa</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body data-page="menu">
+  <div class="announcement">Walk in and bring your palette to life <span>•</span> Tema Community 11</div>
+  <header class="site-header">
+    <a class="brand has-logo" href="index.html" aria-label="Taste Africa home"><img class="brand-logo" src="logo.jpg" alt="Taste Africa - Food and Beverage Company"></a>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a><a class="active" href="menu.html">Menu</a><a href="reservation.html">Reservations</a><a href="contact.html">Contact</a><a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Toggle theme mode"><span class="theme-icon">☀️</span><span class="theme-text">Light</span></button>
+    <button class="cart-trigger" type="button" aria-label="Open cart"><span class="cart-icon">↗</span><span>Order</span><b class="cart-count">0</b></button>
+  </header>
+
+  <main class="menu-page-wrapper">
+    <!-- Sliding High-Quality Background Food Images -->
+    <div class="menu-slideshow" aria-hidden="true">
+      <div class="menu-bg-slide is-active" style="background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="menu-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="menu-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="menu-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="menu-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="menu-overlay-gradient"></div>
+    </div>
+
+    <div class="menu-container">
+      <div class="menu-glass-overlay">
+        <!-- Hero Title -->
+        <div class="menu-header-center">
+          <p class="eyebrow-gold">Interactive Culinary Menu</p>
+          <h1>Crafted with Passion</h1>
+          <p class="menu-subtitle">Explore seasonal starters, wood-fired main courses, decadent desserts, and artisanal beverages.</p>
+        </div>
+
+        <!-- Search Bar & Dietary Filter Toolbar -->
+        <div class="menu-controls-bar">
+          <!-- Live Search Bar -->
+          <div class="menu-search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="menu-search-input" placeholder="Search dishes, ingredients, or flavors..." aria-label="Search menu items">
+          </div>
+
+          <!-- Category Navigation Tabs & Dietary Filters -->
+          <div class="menu-filter-row">
+            <div class="filter-group-category">
+              <button class="menu-cat-btn active" data-filter="all">All</button>
+              <button class="menu-cat-btn" data-filter="starters">Starters</button>
+              <button class="menu-cat-btn" data-filter="mains">Main Courses</button>
+              <button class="menu-cat-btn" data-filter="desserts">Desserts</button>
+              <button class="menu-cat-btn" data-filter="drinks">Drinks</button>
+            </div>
+            
+            <div class="filter-group-dietary">
+              <span class="diet-label">Dietary:</span>
+              <button class="diet-pill" data-diet="vegetarian">🥗 Vegetarian</button>
+              <button class="diet-pill" data-diet="vegan">🌱 Vegan</button>
+              <button class="diet-pill" data-diet="gluten-free">🌾 Gluten-Free</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Content Grid (Rendered dynamically by main.js) -->
+        <div class="menu-grid" id="main-menu-grid">
+          <!-- Dynamic cards inserted here by main.js -->
+        </div>
+
+        <!-- Restaurant Details Footer Block -->
+        <div class="menu-footer-details">
+          <div class="menu-detail-card">
+            <span class="detail-icon">📍</span>
+            <div>
+              <strong>Location</strong>
+              <p>Tema Community 11</p>
+            </div>
+          </div>
+          <div class="menu-detail-card">
+            <span class="detail-icon">📞</span>
+            <div>
+              <strong>Phone</strong>
+              <p><a href="tel:+233503658302">+233 503658302</a></p>
+            </div>
+          </div>
+          <div class="menu-detail-card">
+            <span class="detail-icon">⏰</span>
+            <div>
+              <strong>Opening Hours</strong>
+              <p>9:00 AM – 10:00 PM</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand has-logo" href="index.html"><img class="brand-logo" src="logo.jpg" alt="Taste Africa"></a>
+    <div><p>Tema Community 11</p><a href="mailto:hello@thevelvetplate.com">hello@thevelvetplate.com</a></div>
+    <div><p>Tue–Sun / 9am–10pm<br>Walk-ins always welcome</p><a href="contact.html">Find your way here →</a></div>
+    <small>© 2025 Taste Africa</small>
+  </footer>
+
+  <!-- Customization Modal & Cart Drawer -->
+  <aside class="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-head"><h2>Your order</h2><button class="close-cart" type="button" aria-label="Close cart">×</button></div>
+    <div class="cart-items"></div>
+    <div class="cart-empty"><span>◎</span><p>Your order is<br>waiting to happen.</p><a href="menu.html">Browse the menu →</a></div>
+    <div class="cart-footer"><div><span>Subtotal</span><strong class="cart-total">₵0.00</strong></div><button class="button button-dark checkout-button" type="button" disabled>Checkout <span>↗</span></button></div>
+  </aside>
+  <div class="drawer-scrim"></div>
+
+  <div class="modal-layer" aria-hidden="true">
+    <section class="custom-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" aria-label="Close customization">×</button>
+      <div class="modal-image modal-image-1"></div>
+      <div class="modal-content">
+        <div class="modal-type-badge" id="modal-type-badge">
+          <span class="badge-icon">🍽️</span>
+          <span class="badge-text">Kitchen Customizer</span>
+        </div>
+        <p class="eyebrow">Crafted for your taste</p>
+        <h2 id="modal-title">Dish name</h2>
+        <p class="modal-description"></p>
+        
+        <!-- Dynamic Food-Type Specific Options Container -->
+        <div id="dynamic-modal-options" class="modal-dynamic-options">
+          <!-- Dynamically populated based on food type by main.js -->
+        </div>
+
+        <button class="button button-dark modal-add" type="button">Add to order <span>+</span></button>
+      </div>
+    </section>
+  </div>
+
+  <div class="checkout-layer" aria-hidden="true">
+    <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="modal-close checkout-close" type="button" aria-label="Close checkout">×</button>
+      <div class="checkout-selection">
+        <p class="eyebrow">Checkout</p>
+        <h2 id="checkout-title">Pickup checkout</h2>
+        <div class="checkout-price-row"><span>Food subtotal</span><strong class="checkout-subtotal">₵0.00</strong></div>
+        <section class="payment-options" aria-labelledby="payment-title">
+          <p class="checkout-section-title" id="payment-title">Pickup payment</p>
+          <div class="pickup-payment-timing">
+            <label class="fulfillment-choice"><input type="radio" name="pickup-payment-timing" value="before-pickup" checked><span><strong>Pay before pickup</strong><small>Pay online now with your preferred method.</small></span></label>
+            <label class="fulfillment-choice"><input type="radio" name="pickup-payment-timing" value="on-pickup"><span><strong>Pay on pickup</strong><small>Pay when you collect your order at Taste Africa.</small></span></label>
+          </div>
+          <div class="payment-method-options">
+            <label class="fulfillment-choice payment-choice" aria-label="Pay by card"><input type="radio" name="payment-method" value="card" checked><span><svg class="payment-logo payment-logo-card" viewBox="0 0 58 40" aria-hidden="true"><rect x="2" y="2" width="54" height="36" rx="5"/><path d="M3 13h52M10 28h14"/></svg></span></label>
+            <label class="fulfillment-choice payment-choice" aria-label="Pay with Mobile Money"><input type="radio" name="payment-method" value="mobile-money"><span><b class="payment-logo payment-logo-momo" aria-hidden="true">MoMo</b></span></label>
+            <label class="fulfillment-choice payment-choice" aria-label="Pay with Telecel Cash"><input type="radio" name="payment-method" value="telecel-cash"><span><b class="payment-logo payment-logo-telecel" aria-hidden="true">telecel<br>cash</b></span></label>
+          </div>
+        </section>
+        <div class="checkout-price-row checkout-total-row"><span>Total</span><strong class="checkout-final-total">₵0.00</strong></div>
+        <button class="button button-dark checkout-confirm" type="button">Confirm pickup order <span>→</span></button>
+      </div>
+      <div class="checkout-contact" hidden>
+        <button class="checkout-back" type="button">← Back to checkout</button>
+        <p class="eyebrow">Contact details</p>
+        <h2 class="checkout-contact-title">Who is collecting this order?</h2>
+        <p class="checkout-contact-copy">We’ll use these details if we need to reach you about your order.</p>
+        <form class="checkout-contact-form">
+          <label class="checkout-field">Full name<input name="customer-name" type="text" autocomplete="name" required></label>
+          <label class="checkout-field">Phone number<input name="customer-phone" type="tel" autocomplete="tel" required></label>
+          <button class="button button-dark checkout-place-order" type="submit">Place order <span>→</span></button>
+        </form>
+      </div>
+      <div class="checkout-success" hidden>
+        <span class="success-symbol">✓</span>
+        <p class="eyebrow">Order received</p>
+        <h2>That’s dinner sorted.</h2>
+        <p class="checkout-success-copy">Your order is on its way to the kitchen. We’ll see you at Taste Africa.</p>
+        <button class="button button-dark checkout-done" type="button">Back to the menu <span>↗</span></button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

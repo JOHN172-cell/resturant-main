@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reserve a table at Taste Africa in Tema Community 11. Transparent elegant overlay, wood-fired cuisine, and warm hospitality.">
+  <title>Reservations | Taste Africa</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body data-page="reservation">
+  <div class="announcement">Walk in and bring your palette to life <span>•</span> Tema Community 11</div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Taste Africa home"><span class="brand-mark">T<span>A</span></span><span class="brand-name">Taste<br><em>Africa</em></span></a>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a><a href="menu.html">Menu</a><a class="active" href="reservation.html">Reservations</a><a href="contact.html">Contact</a><a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Toggle theme mode"><span class="theme-icon">☀️</span><span class="theme-text">Light</span></button>
+    <button class="cart-trigger" type="button" aria-label="Open cart"><span class="cart-icon">↗</span><span>Order</span><b class="cart-count">0</b></button>
+  </header>
+
+  <main class="reservation-page-wrapper">
+    <!-- Sliding High-Resolution Background Images -->
+    <div class="res-slideshow" aria-hidden="true">
+      <div class="res-bg-slide is-active" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="res-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="res-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="res-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="res-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=85');"></div>
+      <div class="res-overlay-gradient"></div>
+    </div>
+
+    <!-- Centered Glassmorphic Transparent Reservation Overlay -->
+    <div class="res-container">
+      <div class="res-glass-card">
+        <!-- Top Info Header Bar -->
+        <div class="res-header-info">
+          <div class="res-info-badge">
+            <span class="info-icon">📍</span>
+            <span><strong>Location:</strong> Tema Community 11</span>
+          </div>
+          <div class="res-info-badge">
+            <span class="info-icon">📞</span>
+            <span><strong>Phone:</strong> <a href="tel:+233503658302">+233 503658302</a></span>
+          </div>
+          <div class="res-info-badge">
+            <span class="info-icon">⏰</span>
+            <span><strong>Hours:</strong> Open 9:00 AM – 10:00 PM</span>
+          </div>
+        </div>
+
+        <!-- Title & Subtitle -->
+        <div class="res-card-heading">
+          <p class="eyebrow-gold">Table Reservation</p>
+          <h1>Reserve Your Dining Experience</h1>
+          <p class="res-subtitle">Join us for extraordinary flavors, wood-fired seasonal dishes, and warm hospitality.</p>
+        </div>
+
+        <!-- Reservation Form -->
+        <form class="res-form-grid" id="reservation-form" novalidate>
+          <div class="res-field-group">
+            <label for="res-date">
+              <span class="label-text">Date *</span>
+              <input type="date" id="res-date" name="date" required>
+            </label>
+          </div>
+
+          <div class="res-field-group">
+            <label for="res-time">
+              <span class="label-text">Time *</span>
+              <select id="res-time" name="time" required>
+                <option value="">Select Time</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="6:30 PM">6:30 PM</option>
+                <option value="7:00 PM">7:00 PM</option>
+                <option value="7:30 PM">7:30 PM</option>
+                <option value="8:00 PM">8:00 PM</option>
+                <option value="8:30 PM">8:30 PM</option>
+                <option value="9:00 PM">9:00 PM</option>
+                <option value="9:30 PM">9:30 PM</option>
+                <option value="10:00 PM">10:00 PM</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="res-field-group">
+            <label for="res-party">
+              <span class="label-text">Party Size *</span>
+              <select id="res-party" name="party" required>
+                <option value="">Select Guests</option>
+                <option value="1 Guest">1 Guest</option>
+                <option value="2 Guests">2 Guests</option>
+                <option value="3 Guests">3 Guests</option>
+                <option value="4 Guests">4 Guests</option>
+                <option value="5 Guests">5 Guests</option>
+                <option value="6+ Guests">6+ Guests (Large Party)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="res-field-group">
+            <label for="res-name">
+              <span class="label-text">Full Name *</span>
+              <input type="text" id="res-name" name="name" placeholder="John Doe" required>
+            </label>
+          </div>
+
+          <div class="res-field-group res-full-width">
+            <label for="res-email">
+              <span class="label-text">Email Address (Optional)</span>
+              <input type="email" id="res-email" name="email" placeholder="john@example.com">
+            </label>
+          </div>
+
+          <div class="res-field-group res-full-width">
+            <label for="res-phone">
+              <span class="label-text">Phone Number *</span>
+              <input type="tel" id="res-phone" name="phone" autocomplete="tel" placeholder="+233 50 365 8302" required>
+            </label>
+          </div>
+
+          <div class="res-field-group res-full-width">
+            <label for="res-allergies">
+              <span class="label-text">Allergy Information (Optional)</span>
+              <input type="text" id="res-allergies" name="allergies" placeholder="e.g. Peanuts, Shellfish, Dairy, Gluten (or None)">
+            </label>
+          </div>
+
+          <div class="res-field-group res-full-width">
+            <label for="res-occasion">
+              <span class="label-text">Special Occasion (Optional)</span>
+              <input type="text" id="res-occasion" name="occasion" placeholder="e.g. Birthday, Anniversary, Business Dinner, Date Night">
+            </label>
+          </div>
+
+          <!-- Gold 'Find a Table' Submit Button -->
+          <div class="res-submit-wrapper">
+            <button type="submit" class="gold-find-table-btn">
+              <span>Find a Table</span>
+              <span class="gold-btn-icon">✦</span>
+            </button>
+          </div>
+
+          <div class="form-message" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="index.html"><span class="brand-mark">V<span>P</span></span><span class="brand-name">The Velvet<br><em>Plate</em></span></a>
+    <div><p>Tema Community 11</p><a href="mailto:hello@thevelvetplate.com">hello@thevelvetplate.com</a></div>
+    <div><p>Mon–Sun / 9am–10pm<br>Walk-ins always welcome</p><a href="contact.html">Find your way here →</a></div>
+    <small>© 2025 Taste Africa</small>
+  </footer>
+
+  <aside class="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-head"><h2>Your order</h2><button class="close-cart" type="button" aria-label="Close cart">×</button></div>
+    <div class="cart-items"></div>
+    <div class="cart-empty"><span>◎</span><p>Your order is<br>waiting to happen.</p><a href="menu.html">Browse the menu →</a></div>
+    <div class="cart-footer"><div><span>Subtotal</span><strong class="cart-total">₵0.00</strong></div><button class="button button-dark checkout-button" type="button" disabled>Checkout <span>↗</span></button></div>
+  </aside>
+  <div class="drawer-scrim"></div>
+</body>
+</html>
