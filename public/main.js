@@ -520,7 +520,7 @@
             <span class="success-symbol">✓</span>
             <p class="eyebrow">Order received</p>
             <h2>That’s dinner sorted.</h2>
-            <p class="checkout-success-copy">Your order is on its way to the kitchen. We’ll see you at Taste Africa.</p>
+            <p class="checkout-success-copy">Your meal is being prepared. Thank you for trusting us with your meal.</p>
             <button class="button button-dark checkout-done" type="button">Back to the menu <span>↗</span></button>
           </div>
         </section>
@@ -1125,9 +1125,7 @@
       if (contact) contact.hidden = true;
       if (success) success.hidden = false;
       const successCopy = qs('.checkout-success-copy', layer);
-      if (successCopy) successCopy.textContent = paymentTiming === 'on-pickup'
-        ? 'Your pickup order is on its way to the kitchen. Pay when you collect it at Taste Africa.'
-        : 'Your pickup order has been received and paid. We’ll see you at Taste Africa.';
+      if (successCopy) successCopy.textContent = 'Your meal is being prepared. Thank you for trusting us with your meal.';
     });
 
     qs('.checkout-done', layer)?.addEventListener('click', () => {
@@ -1211,7 +1209,8 @@
         body: JSON.stringify(resPayload)
       }).catch(err => console.log('Backend API sync notice:', err));
 
-      showMessage(reservationForm, `🎉 Table Requested! Thank you, ${name}. Your table for ${party} on ${date} at ${time} has been submitted. We look forward to welcoming you!`, true);
+      showMessage(reservationForm, `Thank you, ${name}. Your reservation has been received and will be confirmed soon.`, true);
+      window.alert('Your reservation will be confirmed soon.');
       reservationForm.reset();
     });
     const contactForm = qs('#contact-form');
@@ -1314,5 +1313,3 @@
     setupCustomization();
   });
 })();
-
-
