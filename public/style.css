@@ -294,7 +294,7 @@
    font-weight: 400
  }
 
- .hero-intro {
+.hero-intro {
    font-size: 16px;
    max-width: 380px;
    line-height: 1.55;
@@ -4342,6 +4342,25 @@ body.dark-mode .ghana-hero h1 em {
   color: #C4922A !important;
 }
 
+/* A quieter, more focused homepage. */
+body[data-page="home"] .home-hero:before {
+  background: linear-gradient(90deg, rgba(15, 16, 14, .82), rgba(15, 16, 14, .32)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=2200&q=85') center/cover;
+  filter: saturate(.55);
+}
+
+body[data-page="home"] .hero h1 em,
+body[data-page="home"] .feature-section h2 em {
+  color: inherit;
+}
+
+body[data-page="home"] .button-primary {
+  background: #315d39;
+}
+
+body[data-page="home"] .feature-section {
+  background: #f7f4ee;
+}
+
 /* Bright homepage copy panel over every rotating hero image. */
 .ghana-hero .hero-copy {
   max-width: min(850px, calc(100% - 44px));
@@ -4557,7 +4576,7 @@ body[data-page="home"] .cart-count {
 body[data-page="home"] .home-hero {
   min-height: min(790px, calc(100vh - 124px));
   isolation: isolate;
-  background: #b93120;
+  background: #1f2d24;
 }
 
 body[data-page="home"] .home-dish-slides,
@@ -4585,7 +4604,7 @@ body[data-page="home"] .home-dish-slide.is-active {
 
 body[data-page="home"] .home-hero.ghana-hero:before {
   z-index: 1;
-  background: linear-gradient(105deg, rgba(67, 20, 12, .92) 4%, rgba(169, 46, 25, .76) 49%, rgba(247, 150, 37, .28) 100%);
+  background: linear-gradient(105deg, rgba(18, 27, 22, .9) 6%, rgba(18, 27, 22, .64) 52%, rgba(18, 27, 22, .18) 100%);
   filter: none;
 }
 
@@ -4597,7 +4616,7 @@ body[data-page="home"] .home-hero:after {
   width: min(48vw, 620px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: #ffd65a;
+  background: #d8b76a;
   opacity: .18;
   filter: blur(1px);
 }
@@ -4621,7 +4640,7 @@ body[data-page="home"] .hero h1 {
 }
 
 body[data-page="home"] .ghana-hero h1 em {
-  color: #ffdb62;
+  color: #f5f1e8;
 }
 
 body[data-page="home"] .hero-intro {
@@ -4665,7 +4684,7 @@ body[data-page="home"] .home-slider-dots button {
 }
 
 body[data-page="home"] .home-slider-dots button.active {
-  background: #ffcf4b;
+  background: #f5f1e8;
 }
 
 body[data-page="home"] .scroll-cue {

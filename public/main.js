@@ -5,6 +5,7 @@
   const cartKey = 'velvet-plate-cart';
   let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
   let selectedDish = null;
+  let homeMenuSlideTimer = null;
 
   const qs = (selector, parent = document) => parent.querySelector(selector);
   const qsa = (selector, parent = document) => [...parent.querySelectorAll(selector)];
@@ -172,6 +173,49 @@
     applyMenuFilters();
   }
 
+  function renderHomeMenuSlideshow() {
+    const slides = qs('#home-menu-slides');
+    const dots = qs('#home-menu-slide-dots');
+    if (!slides || !dots) return;
+
+    const menuItems = loadMenuItems().filter(item => item.image);
+    const drinks = menuItems.filter(item => /drink|beverage|cocktail/i.test(item.category));
+    const dishes = menuItems.filter(item => !/drink|beverage|cocktail/i.test(item.category));
+    const items = [...dishes.slice(0, 6), ...drinks.slice(0, 2)];
+    if (!items.length) return;
+
+    slides.replaceChildren();
+    dots.replaceChildren();
+    const slideElements = items.map((item, index) => {
+      const slide = document.createElement('div');
+      slide.className = `home-dish-slide${index === 0 ? ' is-active' : ''}`;
+      slide.style.backgroundImage = `url("${item.image}")`;
+      slides.append(slide);
+
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = index === 0 ? 'active' : '';
+      dot.setAttribute('aria-label', `Show ${item.name}`);
+      dots.append(dot);
+      return { slide, dot };
+    });
+
+    let activeIndex = 0;
+    const showSlide = index => {
+      activeIndex = (index + slideElements.length) % slideElements.length;
+      slideElements.forEach((entry, entryIndex) => {
+        entry.slide.classList.toggle('is-active', entryIndex === activeIndex);
+        entry.dot.classList.toggle('active', entryIndex === activeIndex);
+      });
+    };
+    slideElements.forEach((entry, index) => entry.dot.addEventListener('click', () => showSlide(index)));
+
+    if (homeMenuSlideTimer) clearInterval(homeMenuSlideTimer);
+    if (slideElements.length > 1) {
+      homeMenuSlideTimer = setInterval(() => showSlide(activeIndex + 1), 5000);
+    }
+  }
+
   // Keep the guest menu aligned with the database after an administrator
   // adds or updates a dish, including its selected image.
   async function syncMenuFromApi() {
@@ -182,6 +226,7 @@
       localStorage.setItem('velvet-plate-menu-data', JSON.stringify(items));
       renderDynamicMenu();
       renderHomepageMenuHighlights();
+      renderHomeMenuSlideshow();
       applyMenuAvailability();
       setupCustomization();
     } catch (error) {
@@ -1298,6 +1343,7 @@
   setupStaffAccess();
   renderDynamicMenu();
   renderHomepageMenuHighlights();
+  renderHomeMenuSlideshow();
   setupMenuInteractiveFilters();
   applyMenuAvailability();
   setupCustomization();
@@ -1325,6 +1371,7 @@
   window.addEventListener('menu:updated', () => {
     renderDynamicMenu();
     renderHomepageMenuHighlights();
+    renderHomeMenuSlideshow();
     applyMenuAvailability();
     setupCustomization();
   });
@@ -1335,6 +1382,7 @@
     if (event.key !== 'velvet-plate-menu-data' && event.key !== 'velvet-plate-availability') return;
     renderDynamicMenu();
     renderHomepageMenuHighlights();
+    renderHomeMenuSlideshow();
     applyMenuAvailability();
     setupCustomization();
   });
