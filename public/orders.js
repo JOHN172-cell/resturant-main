@@ -16,8 +16,12 @@
       list = [];
     }
     if (!Array.isArray(list)) return [];
-    // Remove demo tickets that may have been stored by older versions.
-    return list.filter(item => !String(item.id || '').startsWith('order-demo-'));
+    const realOrders = list.filter(item => !String(item.id || '').startsWith('order-demo-'));
+    // Permanently clear demo tickets that older versions stored in the browser.
+    if (realOrders.length !== list.length) {
+      localStorage.setItem(ordersKey, JSON.stringify(realOrders));
+    }
+    return realOrders;
   }
 
   function saveOrders() {
