@@ -39,6 +39,7 @@
   let menuItems = loadMenuItems();
   let availability = loadAvailability();
   let menuSearch = '';
+  let editingMenuId = null;
 
   function loadMenuItems() {
     const raw = localStorage.getItem(menuDataKey);
@@ -121,7 +122,7 @@
       const isAvailable = availability[item.id] !== false;
       const image = item.image || (item.images && item.images[0]) || categoryFallbacks[item.category] || categoryFallbacks.Main;
       return `
-        <div class="admin-menu-item">
+        <div class="admin-menu-item" data-edit-menu-id="${item.id}" role="button" tabindex="0" aria-label="Edit ${item.name}">
           <div class="admin-menu-thumb" role="img" aria-label="${item.name} preview" style="background-image:url('${image}')"></div>
           <div>
             <strong>${item.name}</strong>
@@ -146,7 +147,8 @@
 
     // Bind availability toggles
     qsa('[data-menu-id]', container).forEach(button => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', event => {
+        event.stopPropagation();
         const id = button.dataset.menuId;
         availability[id] = !(availability[id] !== false);
         localStorage.setItem(menuKey, JSON.stringify(availability));
@@ -166,9 +168,21 @@
 
     // Bind delete buttons
     qsa('[data-delete-menu-id]', container).forEach(button => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', event => {
+        event.stopPropagation();
         const id = button.dataset.deleteMenuId;
         deleteMenuItem(id);
+      });
+    });
+
+    qsa('[data-edit-menu-id]', container).forEach(row => {
+      const openEditor = () => openMenuItemEditor(row.dataset.editMenuId);
+      row.addEventListener('click', openEditor);
+      row.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openEditor();
+        }
       });
     });
   }
@@ -256,8 +270,11 @@
     const glutenFree = formData.get('glutenFree') === 'on';
     const imageFiles = formData.getAll('images').filter(file => file && file.size > 0);
 
-    if (!name || !Number.isFinite(price) || price <= 0 || imageFiles.length !== 1) {
-      alert('Please provide a valid dish name, price, and one image.');
+    const existingItem = editingMenuId && menuItems.find(item => item.id === editingMenuId);
+    if (!name || !Number.isFinite(price) || price <= 0 || imageFiles.length > 1 || (!existingItem && imageFiles.length !== 1)) {
+      alert(existingItem
+        ? 'Please provide a valid dish name, price, and no more than one replacement image.'
+        : 'Please provide a valid dish name, price, and one image.');
       return;
     }
 
@@ -268,22 +285,23 @@
       submitBtn.textContent = 'Saving dish...';
     }
 
-    let images = [];
-    try {
-      images = await processSelectedImages(imageFiles);
-    } catch (error) {
-      console.error('Image processing error:', error);
-      alert(error.message || 'The selected image could not be saved.');
-      return;
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+    let images = existingItem ? [...(existingItem.images || [existingItem.image]).filter(Boolean)] : [];
+    if (imageFiles.length === 1) {
+      try {
+        images = await processSelectedImages(imageFiles);
+      } catch (error) {
+        console.error('Image processing error:', error);
+        alert(error.message || 'The selected image could not be saved.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+        return;
       }
     }
 
     const item = {
-      id: slugify(name),
+      id: existingItem ? existingItem.id : slugify(name),
       name,
       category,
       cuisine,
@@ -323,7 +341,7 @@
       menuItems.push(item);
     }
 
-    availability[item.id] = true;
+    if (availability[item.id] === undefined) availability[item.id] = true;
     localStorage.setItem(menuDataKey, JSON.stringify(menuItems));
     localStorage.setItem(menuKey, JSON.stringify(availability));
 
@@ -335,6 +353,38 @@
     renderStats();
     window.dispatchEvent(new CustomEvent('menu:updated'));
     closeAddItemModal();
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  }
+
+  function openMenuItemEditor(id) {
+    const item = menuItems.find(entry => entry.id === id);
+    const modal = qs('#add-item-modal');
+    const form = qs('#add-menu-form');
+    if (!item || !modal || !form) return;
+
+    editingMenuId = item.id;
+    form.reset();
+    form.elements.name.value = item.name || '';
+    form.elements.category.value = item.category || 'Starter';
+    form.elements.cuisine.value = item.cuisine || 'Continental';
+    form.elements.price.value = item.price || '';
+    form.elements.description.value = item.description || '';
+    form.elements.vegan.checked = Boolean(item.vegan);
+    form.elements.glutenFree.checked = Boolean(item.glutenFree);
+    form.elements.category.dispatchEvent(new Event('change'));
+
+    qs('#add-item-title').textContent = 'Edit menu dish';
+    qs('#add-item-title')?.nextElementSibling && (qs('#add-item-title').nextElementSibling.textContent = 'Update the details, then save your changes.');
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.innerHTML = 'Save changes <span>→</span>';
+    const uploadStatus = qs('#upload-file-status');
+    if (uploadStatus) uploadStatus.textContent = 'Current image will be kept unless you choose a replacement.';
+    modal.hidden = false;
+    qs('#open-add-item')?.setAttribute('aria-expanded', 'true');
+    form.elements.name.focus();
   }
 
   function closeAddItemModal() {
@@ -343,6 +393,7 @@
     if (!modal) return;
     modal.hidden = true;
     trigger?.setAttribute('aria-expanded', 'false');
+    editingMenuId = null;
   }
 
   function setupAddItemModal() {
@@ -352,6 +403,15 @@
     if (!modal || !trigger) return;
 
     trigger.addEventListener('click', () => {
+      editingMenuId = null;
+      const form = qs('#add-menu-form');
+      form?.reset();
+      qs('#add-item-title').textContent = 'Add a menu dish';
+      qs('#add-item-title')?.nextElementSibling && (qs('#add-item-title').nextElementSibling.textContent = 'Create a dish to appear on the guest menu.');
+      const submitButton = form?.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.innerHTML = 'Add dish to menu <span>+</span>';
+      const uploadStatus = qs('#upload-file-status');
+      if (uploadStatus) uploadStatus.textContent = '';
       modal.hidden = false;
       trigger.setAttribute('aria-expanded', 'true');
       qs('#add-menu-form input[name="name"]')?.focus();
