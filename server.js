@@ -106,6 +106,26 @@ function reservationMessage(reservation) {
   return `Hello ${reservation.name}, your Taste Africa reservation for ${reservation.party || 'your party'} on ${reservation.date} at ${reservation.time} is confirmed. We look forward to welcoming you!`;
 }
 
+function reservationReceivedMessage(reservation) {
+  return `Hello ${reservation.name}, we received your Taste Africa reservation request for ${reservation.date} at ${reservation.time}. Your reservation will be confirmed soon.`;
+}
+
+async function sendReservationReceivedSms(reservation) {
+  if (!reservation.phone) return 'not-requested';
+  if (!twilioClient) return 'not-configured';
+  try {
+    await twilioClient.messages.create({
+      body: reservationReceivedMessage(reservation),
+      from: process.env.TWILIO_FROM_NUMBER,
+      to: reservation.phone
+    });
+    return 'sent';
+  } catch (error) {
+    console.error('Reservation request SMS failed:', error.message);
+    return 'failed';
+  }
+}
+
 async function sendConfirmationNotifications(reservation) {
   const message = reservationMessage(reservation);
   const results = { email: 'not-requested', sms: 'not-requested' };
@@ -312,17 +332,33 @@ app.get('/api/reservations', requireAdmin, (req, res) => {
 });
 
 // POST New Reservation
-app.post('/api/reservations', (req, res) => {
+app.post('/api/reservations', async (req, res) => {
+  const name = String(req.body?.name || '').trim();
+  const phone = String(req.body?.phone || '').replace(/[\s()-]/g, '');
+  const date = String(req.body?.date || '').trim();
+  const time = String(req.body?.time || '').trim();
+  if (!name || !date || !time || !phone) {
+    return res.status(400).json({ error: 'Name, phone number, date, and time are required.' });
+  }
+  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    return res.status(400).json({ error: 'Use an international phone number, for example +233503658302.' });
+  }
   const db = readDB();
   const newReservation = {
     id: `reservation-${Date.now()}`,
     createdAt: new Date().toISOString(),
     ...req.body,
+    name,
+    phone,
+    date,
+    time,
     status: 'pending'
   };
+  const sms = await sendReservationReceivedSms(newReservation);
+  newReservation.notificationStatus = { reservationReceivedSms: sms };
   db.reservations.push(newReservation);
   writeDB(db);
-  res.json({ success: true, reservation: newReservation });
+  res.status(201).json({ success: true, reservation: newReservation, sms });
 });
 
 // PUT Update Reservation Status

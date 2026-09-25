@@ -1185,7 +1185,7 @@
 
   function setupForms() {
     const reservationForm = qs('#reservation-form');
-    reservationForm?.addEventListener('submit', event => {
+    reservationForm?.addEventListener('submit', async event => {
       event.preventDefault();
       if (!reservationForm.checkValidity()) { showMessage(reservationForm, 'Please fill in each required field, including your phone number.'); reservationForm.reportValidity(); return; }
       const data = new FormData(reservationForm);
@@ -1215,20 +1215,28 @@
         status: 'pending'
       };
 
-      const reservations = JSON.parse(localStorage.getItem('velvet-plate-reservations') || '[]');
-      reservations.push(resPayload);
-      localStorage.setItem('velvet-plate-reservations', JSON.stringify(reservations));
-      
-      // Post to backend API
-      fetch('/api/reservations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(resPayload)
-      }).catch(err => console.log('Backend API sync notice:', err));
+      try {
+        const response = await fetch('/api/reservations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(resPayload)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'We could not submit your reservation.');
 
-      showMessage(reservationForm, `Thank you, ${name}. Your reservation has been received and will be confirmed soon.`, true);
-      window.alert('Your reservation will be confirmed soon.');
-      reservationForm.reset();
+        const reservations = JSON.parse(localStorage.getItem('velvet-plate-reservations') || '[]');
+        reservations.push(result.reservation);
+        localStorage.setItem('velvet-plate-reservations', JSON.stringify(reservations));
+
+        const message = result.sms === 'sent'
+          ? 'Your reservation has been received. An SMS confirmation has been sent to your phone.'
+          : 'Your reservation has been received and will be confirmed soon.';
+        showMessage(reservationForm, message, true);
+        window.alert(message);
+        reservationForm.reset();
+      } catch (error) {
+        showMessage(reservationForm, error.message || 'We could not submit your reservation.');
+      }
     });
     const contactForm = qs('#contact-form');
     contactForm?.addEventListener('submit', event => {
